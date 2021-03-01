@@ -16,3 +16,12 @@ create table if not exists stock_spare_parts(
    price int(18),
    
 );
+
+create table if not exists emp_details(
+   emp_id int primary key,
+   emp_name varchar(16),
+   emp_mobile int(16),
+   emp_address int(16),
+   emp_department varchar(16),
+   current_salary int(16),
+);
