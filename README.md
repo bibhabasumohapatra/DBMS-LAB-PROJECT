@@ -1,2 +1,2 @@
 # DBMS-LAB-PROJECT
-please make branch create a pull request dont directly commit to main branch.
+please create a branch then a pull request ---don't directly commit to main branch.
