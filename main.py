@@ -1,5 +1,6 @@
 #importing libraries
 import mysql.connector  
+import pandas as pd
 
 
 
@@ -11,10 +12,17 @@ class motor_parts_DB:
         
         self.con = mysql.connector.connect(host = 'localhost',user = 'bm',password = 'gulu1610',database = 'motor_parts_shop' )
         
-        #create a table if not created .......do it after all this ......now not required
+        #create a table if not created ......showing some error ......do it later
     def create_tables(self):
-        pass    
+        sql_file = "/home/bibhabasu/Desktop/dbms_iiit/db.sql" #assign our file_address
+        cur = self.con.cursor()
+        for line in open(sql_file):
+            cur.execute(line)
 
+        self.con.commit()
+
+        print("created tables")
+        pass
     
 
     #def_insert inserts data into databases 
@@ -43,11 +51,11 @@ class motor_parts_DB:
         print("inserted data to stock spare parts--- db")
 
 
-    def insert_emp_details(self,emp_name,emp_mobile,emp_address,emp_department,current_salary):
+    def insert_emp_details(self,emp_name,emp_address,emp_department,current_salary):
 
-        query = "insert into emp_details(emp_name,emp_mobile,emp_address,emp_department,current_salary) values('{}',{},'{}','{}',{})".format(emp_name,emp_mobile,
-                                                                                                                                                   emp_address,emp_department,
-                                                                                                                                                   current_salary)                                                                                     
+        query = "insert into emp_details(emp_name,emp_address,emp_department,current_salary) values('{}','{}','{}',{})".format(emp_name,
+                                                                                                                                emp_address,emp_department,
+                                                                                                                                current_salary)                                                                                     
 
         
         print(query)
@@ -80,6 +88,16 @@ class motor_parts_DB:
         self.con.commit()
         print("deleted" + " " + str(emp_id))
 
+    def fetch_all(self,table_name):
+
+        cur = self.con.cursor()
+        cur.execute('SELECT * FROM {}'.format(table_name))
+        table_rows = cur.fetchall()
+        df = pd.DataFrame(table_rows)
+        print(df)
+
+
+ 
     
 
 
@@ -88,7 +106,31 @@ motor_db = motor_parts_DB()
 
 #make sure testing is 0 after you do your work
 testing = 0
+testing2 = 0
 if testing == 1:
+    #motor_db.create_tables()
     #motor_db.insert_cust_detail("bibhabasu","tesla","tyres","2nd feb","22nd feb",22000)
-    motor_db.insert_stock_spare_parts("tyres",5,6,2000)
-    motor_db.delete_cust_detail(1)
+    #motor_db.insert_stock_spare_parts("tyres",5,6,2000)
+    #motor_db.insert_emp_details("bradd pit",9714317396,"downing street","tyres",6000)
+    #motor_db.fetch_all("cust_detail")
+
+
+    if testing2  == 1: 
+
+        print("==================================MENU====================================\n")  
+        print("1.   INSERT DATA into CUSTOMER TABLE \n")
+        print("2.   INSERT DATA into STOCK SPARE PARTS \n")
+        print("3.   INSERT DATA into EMPLOYEE DETAILS \n")
+        print("4.   DELETE FROM CUSTOMER TABLE\n")
+        print("1.   DELETE FROM STOCK SPARE PARTS \n")
+        print("1.   DELETE FROM EMPLOYEE TABLE \n")
+        motor_db.fetch_all("cust_detail")
+        motor_db.fetch_all("stock_spare_parts")
+        motor_db.fetch_all("emp_deails")
+        #key = int(input())
+        #if key == 1:
+         #   print("")
+
+
+
+
